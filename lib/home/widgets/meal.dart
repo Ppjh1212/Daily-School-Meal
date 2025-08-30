@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_neis/flutter_neis.dart';
@@ -47,7 +45,7 @@ class Meal extends StatefulWidget {
   State<Meal> createState() => _MealState();
 }
 
-class _MealState extends State<Meal> {
+class _MealState extends State<Meal> with AutomaticKeepAliveClientMixin{
   late final Neis neis;
   List<MealInfo> meal = [];
 
@@ -57,6 +55,7 @@ class _MealState extends State<Meal> {
     neis = Neis(apiKey: dotenv.env['api_key']!);
     loadTodayMealData();
   }
+
 
   Future<void> loadTodayMealData() async {
     await neis.loadSchoolInfo('광주소프트웨어마이스터고등학교');
@@ -69,8 +68,11 @@ class _MealState extends State<Meal> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
-    log('meal : $meal');
+    super.build(context);
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 20,
@@ -134,7 +136,7 @@ class _MealState extends State<Meal> {
             SizedBox(height: 10.h),
             Expanded(
               child: ListView.separated(
-                // physics: const NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: meal.isEmpty ? 7 : meal[widget.index].dishes.length,
                 separatorBuilder: (context, index) => SizedBox(height: 12.h),
                 itemBuilder: (context, index) => Container(
