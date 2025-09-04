@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_neis/flutter_neis.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:neis_school_meal/home/widgets/dislike_button.dart';
 import 'package:neis_school_meal/home/widgets/like_button.dart';
@@ -9,32 +7,37 @@ import 'package:neis_school_meal/home/widgets/star_button.dart';
 class Meal extends StatefulWidget {
   const Meal({
     super.key,
+    required this.dishes,
     required this.timeZone,
     required this.mealTime,
     required this.index,
   });
+  final List<String>? dishes;
   final String timeZone;
   final String mealTime;
   final int index;
 
-  factory Meal.breakFast() {
+  factory Meal.breakFast({required List<String>? dishes}) {
     return Meal(
+      dishes: dishes,
       timeZone: '아침',
       mealTime: '07:30',
       index: 0,
     );
   }
 
-  factory Meal.lunch() {
+  factory Meal.lunch({required List<String>? dishes}) {
     return Meal(
+      dishes: dishes,
       timeZone: '점심',
       mealTime: '12:30',
       index: 1,
     );
   }
 
-  factory Meal.dinner() {
+  factory Meal.dinner({required List<String>? dishes}) {
     return Meal(
+      dishes: dishes,
       timeZone: '저녘',
       mealTime: '18:30',
       index: 2,
@@ -45,27 +48,7 @@ class Meal extends StatefulWidget {
   State<Meal> createState() => _MealState();
 }
 
-class _MealState extends State<Meal> with AutomaticKeepAliveClientMixin{
-  late final Neis neis;
-  List<MealInfo> meal = [];
-
-  @override
-  void initState() {
-    super.initState();
-    neis = Neis(apiKey: dotenv.env['api_key']!);
-    loadTodayMealData();
-  }
-
-
-  Future<void> loadTodayMealData() async {
-    await neis.loadSchoolInfo('광주소프트웨어마이스터고등학교');
-    meal = await neis.meal.client.fetchMeals(
-      officeCode: dotenv.env['office_code']!,
-      schoolCode: dotenv.env['school_code']!,
-      date: '20250828',
-    );
-    setState(() {});
-  }
+class _MealState extends State<Meal> with AutomaticKeepAliveClientMixin {
 
   @override
   bool get wantKeepAlive => true;
@@ -136,8 +119,10 @@ class _MealState extends State<Meal> with AutomaticKeepAliveClientMixin{
             SizedBox(height: 10.h),
             Expanded(
               child: ListView.separated(
+                shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: meal.isEmpty ? 7 : meal[widget.index].dishes.length,
+                // itemCount: meal.isEmpty ? 7 : meal[widget.index].dishes.length,
+                itemCount: widget.dishes == null ? 7 : widget.dishes!.length,
                 separatorBuilder: (context, index) => SizedBox(height: 12.h),
                 itemBuilder: (context, index) => Container(
                   padding: EdgeInsets.symmetric(horizontal: 12.w),
@@ -145,15 +130,15 @@ class _MealState extends State<Meal> with AutomaticKeepAliveClientMixin{
                   height: 48.h,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: meal.isEmpty ? Color(0xFFF9FAFB) : null,
+                    color: widget.dishes == null ? Color(0xFFF9FAFB) : null,
                   ),
-                  child: meal.isEmpty
+                  child: widget.dishes == null
                       ? const SizedBox.shrink()
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              meal[widget.index].dishes[index],
+                              widget.dishes![index],
                               style: TextStyle(
                                 color: Color(0xFF374151),
                                 fontSize: 14,
