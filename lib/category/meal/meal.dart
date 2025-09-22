@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:neis_school_meal/home/widgets/dislike_button.dart';
-import 'package:neis_school_meal/home/widgets/like_button.dart';
-import 'package:neis_school_meal/home/widgets/star_button.dart';
+import 'package:neis_school_meal/category/meal/dislike_button.dart';
+import 'package:neis_school_meal/category/meal/like_button.dart';
+import 'package:neis_school_meal/category/meal/star_button.dart';
 
 class Meal extends StatefulWidget {
   const Meal({
@@ -34,11 +34,11 @@ class Meal extends StatefulWidget {
       index: 1,
     );
   }
-
+ 
   factory Meal.dinner({required List<String>? dishes}) {
     return Meal(
       dishes: dishes,
-      timeZone: '저녘',
+      timeZone: '저녁',
       mealTime: '18:30',
       index: 2,
     );
