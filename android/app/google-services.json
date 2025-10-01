@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "261336139145",
+    "project_id": "meal-f39d2",
+    "storage_bucket": "meal-f39d2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:261336139145:android:468274a9cffc422cdf4d58",
+        "android_client_info": {
+          "package_name": "com.example.neis_school_meal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCM_CNXlFXgCwci5VsegqMN-pzmCmdbAxU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
